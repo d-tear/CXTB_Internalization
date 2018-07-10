@@ -5,7 +5,7 @@ Created on Tue May  3 17:40:28 2016
 @author: davidtyrpak
 """
 
-import csv
+import pandas as pd
 import os
 import random
 from shutil import copyfile
@@ -63,6 +63,7 @@ random_list = []
 
 while len(random_list) < len(tiff_list):
     n = random.randint(1, 100) ##if you need to randomize more than 100 files, select a higher number
+    assert(len(tiff_list) <= 100)
     if n not in random_list:
         random_list.append(n)
     else:
@@ -72,7 +73,7 @@ print(random_list)
 print(len(random_list))
 
 i = 0
-number_to_filename_dict = {} ## create empty dictionary. This will store tiff filenames and their corresponding random number.
+number_to_filename_dict = {} ## create empty dictionary. This will store original filenames and their corresponding random number.
 
 
 for tiff_file in tiff_output_list:
@@ -85,18 +86,14 @@ for tiff_file in tiff_output_list:
 print(number_to_filename_dict)
 print(len(number_to_filename_dict))
     
-# Create Key csv file. Use this key to to determine what the original file name of the tiff file was.
-    
-#results_filename = "Key.csv"
-#with open(os.path.join(output_directory, results_filename), 'wb') as results_file:
-#    writer = csv.writer(results_file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-#    for key in number_to_filename_dict.keys():
-#        row = [key, str(number_to_filename_dict[key])]
-#        print(row)
-#        writer.writerow(row)
-#        
-    
-    
+
+#Now we create Key.csv; Key.csv records the original filename for each random number
+
+data = list(number_to_filename_dict.items()) #this gets your data (which is type dictionary) into the prpoer format for pd.Dataframe
+
+key_df = pd.DataFrame(data, columns = ["filename", "random_number"]) ##convert number_to_filename_dict into a pd Dataframe
+
+key_df.to_csv(os.path.join(output_directory, r'Key.csv')) ##write key_df into a csv file located in the output directory
     
 
 
