@@ -4,7 +4,11 @@ Created on Tue May  3 17:40:28 2016
 
 @author: davidtyrpak
 """
-
+import getpass
+import socket
+import time
+import datetime
+import sys
 import pandas as pd
 import os
 import random
@@ -87,15 +91,29 @@ print(number_to_filename_dict)
 print(len(number_to_filename_dict))
     
 
-#Now we create Key.csv; Key.csv records the original filename for each random number
+####Now we create Key.csv; Key.csv records the original filename for each random number
 
 data = list(number_to_filename_dict.items()) #this gets your data (which is type dictionary) into the prpoer format for pd.Dataframe
 
 key_df = pd.DataFrame(data, columns = ["filename", "random_number"]) ##convert number_to_filename_dict into a pd Dataframe
 
-key_df.to_csv(os.path.join(output_directory, r'Key.csv')) ##write key_df into a csv file located in the output directory
+key_df.to_csv(os.path.join(output_directory, r'Key.csv'), index = False) ##write key_df into a csv file located in the output directory
     
 
+####Now we create Details.csv, which prints version number, input_directory, output_directory, time stamp, user, etc
+
+#time stamps/ts
+ts = time.time() 
+readable = time.ctime(ts) ##human readable form
+#hostname and username
+hostname = socket.gethostname()
+username = getpass.getuser()
 
 
+details_dict = {"version": sys.version, "input_directory":input_directory, "output_directory":output_directory, "time_stamp":readable,
+"hostname":hostname, "username": username}
 
+details = list(details_dict.items())
+details_df = pd.DataFrame(details)
+
+details_df.to_csv(os.path.join(output_directory, r'Details.csv'), index=False, header = False)
