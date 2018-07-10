@@ -15,8 +15,8 @@ def listdir_nohidden(path): ## this function returns all the files in a director
     return glob.glob(os.path.join(path, '*'))
 
 
-input_directory = "//Users//davidtyrpak//Desktop//20160401 (GFP-V60 & EGFR-V96)//Plate 1"
-output_directory = "//Users//davidtyrpak//Desktop//20160401 (GFP-V60 & EGFR-V96)//my output" ##Make sure this directory is empty!
+input_directory = "/Users/davidtyrpak/Desktop/python_playground"
+output_directory = "/Users/davidtyrpak/Desktop/python_playground/output" ##Make sure this directory is empty!
 
 print os.listdir(output_directory)
 
@@ -28,7 +28,7 @@ i = 0
 tiff_list = []
     
 for f in os.listdir(input_directory):
-    if f.endswith(".tif"):
+    if f.endswith(".txt"):
         i+=1
         tiff_list.append(f)
         print i
@@ -51,7 +51,7 @@ for tiff_file in tiff_list:
 tiff_output_list = [] ## I should make a test case here. I should test that len(tiff_output_list) == len(tiff_list)
 
 for f in os.listdir(output_directory):
-    if f.endswith(".tif"):
+    if f.endswith(".txt"):
         tiff_output_list.append(f)
 
 print tiff_output_list
@@ -77,7 +77,7 @@ number_to_filename_dict = {} ## create empty dictionary. This will store tiff fi
 
 for tiff_file in tiff_output_list:
     print tiff_file
-    os.rename(os.path.join(output_directory, tiff_file), os.path.join(output_directory, str(random_list[i])+ ".tif"))
+    os.rename(os.path.join(output_directory, tiff_file), os.path.join(output_directory, str(random_list[i])+ ".txt"))
     number_to_filename_dict[tiff_file] = random_list[i]
     i = i + 1
     print i
