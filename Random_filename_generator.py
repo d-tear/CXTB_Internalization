@@ -35,12 +35,11 @@ def random_rename(input_directory, output_directory, extension):
         raise RuntimeError("Warning! Your output_directory is not empty! Please choose an empty directory.")
     
     
-    i = 0
+    
     file_list = []
         
     for f in os.listdir(input_directory):
         if f.endswith(extension):
-            i+=1
             file_list.append(f)
             
         
@@ -73,17 +72,17 @@ def random_rename(input_directory, output_directory, extension):
             pass
     
     
-    assert(len(file_list) == len(output_list) and len(file_list) == len(random_list))
+    assert(len(file_list) == len(output_list) and len(file_list) == len(random_list)) 
     
     ## create empty dictionary. This will store original filenames and their corresponding random number.
     number_to_filename_dict = {} 
-    i = 0
+    i = 0 #counter for random_list entries
     for file in output_list:
         os.rename(os.path.join(output_directory, file), os.path.join(output_directory, str(random_list[i]) + extension))
         number_to_filename_dict[file] = random_list[i]
         i = i + 1
         
-      
+    assert(len(file_list) == len(number_to_filename_dict.keys()) and len(random_list) == len(number_to_filename_dict.values()))
     
     ####Now we create Key.csv; Key.csv records the original filename for each random number
     
