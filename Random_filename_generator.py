@@ -4,6 +4,7 @@ Created on Tue May  3 17:40:28 2016
 
 @author: davidtyrpak
 """
+
 import getpass
 import socket
 import time
@@ -20,6 +21,13 @@ def listdir_nohidden(path): ## this function returns all the files in a director
 def random_rename(input_directory, output_directory, extension):
 
     """ 
+    This code copies files and uses a 3 digit random number to uniquely rename them. The renamed files are placed
+    in a specified oputput directory. The original files are left in place unchanged. The code can generate 900 unique random numbers. 
+    If you have more than 900 files, edit line 75.
+    The code will also generate two .csv files in the specified output directory:
+    1) Details.csv, which records a timestamp, username, hostname, etc
+    2) Key.csv, which matches each random number renamed file with its original filename
+    
     input_directory: str type; the full path to the directory where your files are located. Should only contain files to be renamed.
     output_directory: str type; the full path to the directory where your renamed files will be located. Must be empty.
     extension: str type; the file format (e.g. ".txt", ".czi", ".csv", ".tif")
@@ -113,6 +121,6 @@ def random_rename(input_directory, output_directory, extension):
     
     return None
     
-
-random_rename("/Users/davidtyrpak/Desktop/python_playground", "/Users/davidtyrpak/Desktop/python_playground/output", ".txt")
+###############Directly below is where you paste your input directory, output directory, and extension###################
+random_rename("/Users/davidtyrpak/Desktop/python_playground/czi_input", "/Users/davidtyrpak/Desktop/python_playground/czi_output", ".czi")
 
