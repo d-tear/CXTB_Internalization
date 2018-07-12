@@ -8,10 +8,11 @@
 //You must create an empty records file before you run this code for the first time.
 //}
 
-
-input_directory = "/Users/davidtyrpak/Desktop/FIJI_playground/"
+output_directory = "/Users/davidtyrpak/Desktop/FIJI_playground/output"
+input_directory = "/Users/davidtyrpak/Desktop/FIJI_playground"
 records_file = "/Users/davidtyrpak/Desktop/FIJI_playground/records_file.txt";
 extension = ".czi";
+
 
 lineseparator = "\n";
 
@@ -39,7 +40,44 @@ if (record_lines.length > extension_files.length) {
 	exit("Something is wrong. Your records file has more entires than there are " + extension + " files in your input directory."); 
 	}
 
+else{
 
+run("Set Measurements...", "area mean standard modal min centroid center perimeter shape feret's integrated median skewness area_fraction display redirect=None decimal=3");
+
+for(i = 0; i < extension_files.length; i++){
+	
+open(input_directory + "/" + extension_files[i]);
+
+name_of_source_image = getTitle; 
+dotIndex = indexOf(name_of_source_image, "."); 
+title = substring(name_of_source_image, 0, dotIndex);
+
+
+run("ROI Manager...");
+
+waitForUser( "Pause","Select your background ROIs and add them to the ROI manager. Then press OK/Enter"); //User selects their ROIs
+
+roiManager("Combine");
+roiManager("Add");
+roiManager("Measure");
+
+selectWindow("Results"); 
+saveAs("Results", output_directory + "/" + title + ".csv");//Analyze particle results
+run("Close");
+
+selectWindow(name_of_source_image);
+close();
+
+roiManager("Save", output_directory + "/" + "Cropped_" + treatment + "_" + title + "_RoiSet.zip"); //Roiset
+close(); 
+
+//add a test case here to ensure that the file isnt already in record_files
+File.append(output_directory + "/" + title, records_file);
+	}
+}
+
+selectWindow("ROI Manager"); 
+run("Close"); 
 
 
 //remove these print statements later
