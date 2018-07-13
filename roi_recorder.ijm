@@ -28,8 +28,11 @@ for(i = 0; i < file_list.length; i++){
 		
 	extension_files = Array.concat(extension_files, file_list[i]); 
 
+
 	}
 }
+
+Array.print(extension_files);
 
 //test that records_file is not already full. A full records_file indicates that the analysis was already completed. 
 if (record_lines.length == extension_files.length) {
@@ -42,6 +45,9 @@ if (record_lines.length > extension_files.length) {
 
 else{
 
+selectWindow("ROI Manager"); //this ensures the ROI manager is clear when the code is begun
+run("Close"); 
+
 run("Set Measurements...", "area mean standard modal min centroid center perimeter shape feret's integrated median skewness area_fraction display redirect=None decimal=3");
 
 for(i = 0; i < extension_files.length; i++){
@@ -49,6 +55,7 @@ for(i = 0; i < extension_files.length; i++){
 open(input_directory + "/" + extension_files[i]);
 
 name_of_source_image = getTitle; 
+print(name_of_source_image);
 dotIndex = indexOf(name_of_source_image, "."); 
 title = substring(name_of_source_image, 0, dotIndex);
 
@@ -62,17 +69,22 @@ roiManager("Add");
 roiManager("Measure");
 
 selectWindow("Results"); 
-saveAs("Results", output_directory + "/" + title + ".csv");//Analyze particle results
+saveAs("Results", output_directory + "/" + title + ".csv");//ROI results
 run("Close");
+
 
 selectWindow(name_of_source_image);
 close();
 
-roiManager("Save", output_directory + "/" + "Cropped_" + treatment + "_" + title + "_RoiSet.zip"); //Roiset
-close(); 
+roiManager("Save", output_directory + "/" + title + "_RoiSet.zip"); //This is causing a bug in my code! 7/12/2018
+selectWindow("ROI Manager"); 
+run("Close"); 
+
+
+
 
 //add a test case here to ensure that the file isnt already in record_files
-File.append(output_directory + "/" + title, records_file);
+File.append(name_of_source_image, records_file);
 	}
 }
 
