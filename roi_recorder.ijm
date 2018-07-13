@@ -45,8 +45,8 @@ if (record_lines.length > extension_files.length) {
 
 else{
 
-selectWindow("ROI Manager"); //this ensures the ROI manager is clear when the code is begun
-run("Close"); 
+//selectWindow("ROI Manager"); //this ensures the ROI manager is clear when the code is begun
+//run("Close"); 
 
 run("Set Measurements...", "area mean standard modal min centroid center perimeter shape feret's integrated median skewness area_fraction display redirect=None decimal=3");
 
@@ -62,21 +62,39 @@ title = substring(name_of_source_image, 0, dotIndex);
 
 run("ROI Manager...");
 
-waitForUser( "Pause","Select your background ROIs and add them to the ROI manager. Then press OK/Enter"); //User selects their ROIs
+waitForUser( "Pause","Select your background ROIs and add them to the ROI manager. Then press OK"); //User selects their ROIs
+
+//ensure that user has selected ROIs before pressing OK
+nROIs = roiManager("count");
+if (nROIs == 0){
+
+selectWindow("ROI Manager"); 
+run("Close"); 
+
+while (nImages>0) { 
+          selectImage(nImages); 
+          close(); 
+      } 
+exit("You pressed OK without first selecting ROIs!")
+
+}
+
 
 roiManager("Combine");
 roiManager("Add");
 roiManager("Measure");
 
+//close Results table
 selectWindow("Results"); 
 saveAs("Results", output_directory + "/" + title + ".csv");//ROI results
 run("Close");
 
-
+//close open image
 selectWindow(name_of_source_image);
 close();
 
-roiManager("Save", output_directory + "/" + title + "_RoiSet.zip"); //This is causing a bug in my code! 7/12/2018
+//close ROI manager
+roiManager("Save", output_directory + "/" + title + "_RoiSet.zip"); 
 selectWindow("ROI Manager"); 
 run("Close"); 
 
