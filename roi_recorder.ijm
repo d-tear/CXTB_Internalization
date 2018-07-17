@@ -1,10 +1,12 @@
 
-function roi_recorder(input_directory, output_directory, records_file, extension, lineseparator) {
+function roi_recorder(input_directory, output_directory, records_file, extension, lineseparator, background) {
 
 // input directory: type string, the full path to the directory where your images are located
 
 /* output_directory: type string, the full path to the directory where you want the csv results file and roiset for each image to be save. 
-Must be different from input_directory. Note that each analyzed image will produce one csv file and one roiset (2 files total). Thus, at any given time, 
+Must be named "background_output" or "nonbackground_output"
+Must be different from input_directory. 
+Note that each analyzed image will produce one csv file and one roiset (2 files total). Thus, at any given time, 
 the output directory will have exactly twice as files as there are entires in the records_file. */ 
 
 
@@ -15,6 +17,24 @@ and then pick up where you left off. You must create an empty records file befor
 // extension: type string, the image format (e.g. ".czi" )
 
 // lineseparator: type string, used to identify each new line/entry in records_file (e.g. "\n" )
+
+// background: type boolean, if True, output_directory must be named "background_directory", else "nonbackground_directory"
+
+
+//The below if else code block ensures that if background = true, the output_directory is named 'background_output, else 'nonbackground_output
+if (background){
+	if (File.getName(output_directory) != "background_output" || File.getName(records_file) != "background_records_file.txt") {
+		exit("Warning! output_directory for background measurements must be named 'background_output' AND records_file must be named 'background_records_file.txt'")}
+}
+
+else{
+
+if (File.getName(output_directory) != "nonbackground_output" || File.getName(records_file) != "nonbackground_records_file.txt"){
+	exit("Warning! output_directory for nonbackground measurements must be named 'nonbackground_output' AND records_file must be named 'nonbackground_records_file.txt'")}
+
+}
+
+
 
 
 record_lines = split(File.openAsString(records_file), lineseparator); // Convert records_file contents to a string, and then converts that string to an array of lines
@@ -71,7 +91,7 @@ title = substring(name_of_source_image, 0, dotIndex);
 
 run("ROI Manager...");
 
-waitForUser( "Pause","Select your background ROIs and add them to the ROI manager. Then press OK"); //User selects their ROIs
+waitForUser( "Pause","Select your ROIs and add them to the ROI manager. Then press OK"); //User selects their ROIs
 
 //ensure that user has selected ROIs before pressing OK
 nROIs = roiManager("count");
@@ -88,8 +108,10 @@ exit("You pressed OK without first selecting ROIs!")
 
 }
 
-
+if (nROIs == 1){
 roiManager("Combine");
+}
+
 roiManager("Add");
 roiManager("Measure");
 
@@ -164,8 +186,8 @@ function ArrayDiff(array1, array2) {
 //extension = ".czi";
 //lineseparator = "\n";
 
-roi_recorder("/Users/davidtyrpak/Desktop/FIJI_playground", "/Users/davidtyrpak/Desktop/FIJI_playground/output", "/Users/davidtyrpak/Desktop/FIJI_playground/records_file.txt",
-".czi", "\n")
+roi_recorder("/Users/davidtyrpak/Desktop/FIJI_playground", "/Users/davidtyrpak/Desktop/FIJI_playground/background_output", "/Users/davidtyrpak/Desktop/FIJI_playground/background_records_file.txt",
+".czi", "\n", true)
 
 
 
