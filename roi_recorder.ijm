@@ -32,7 +32,6 @@ for(i = 0; i < file_list.length; i++){
 	}
 }
 
-Array.print(extension_files);
 
 //test that records_file is not already full. A full records_file indicates that the analysis was already completed. 
 if (record_lines.length == extension_files.length) {
@@ -43,10 +42,12 @@ if (record_lines.length > extension_files.length) {
 	exit("Something is wrong. Your records file has more entires than there are " + extension + " files in your input directory."); 
 	}
 
-else{
 
-//selectWindow("ROI Manager"); //this ensures the ROI manager is clear when the code is begun
-//run("Close"); 
+else{
+	
+//Update extension_files so that the array only contains those files not already record_lines (i.e. not already in the records file).
+extension_files = ArrayDiff(extension_files, record_lines);
+
 
 run("Set Measurements...", "area mean standard modal min centroid center perimeter shape feret's integrated median skewness area_fraction display redirect=None decimal=3");
 
@@ -55,7 +56,6 @@ for(i = 0; i < extension_files.length; i++){
 open(input_directory + "/" + extension_files[i]);
 
 name_of_source_image = getTitle; 
-print(name_of_source_image);
 dotIndex = indexOf(name_of_source_image, "."); 
 title = substring(name_of_source_image, 0, dotIndex);
 
@@ -100,8 +100,6 @@ run("Close");
 
 
 
-
-//add a test case here to ensure that the file isnt already in record_files
 File.append(name_of_source_image, records_file);
 	}
 }
@@ -110,10 +108,7 @@ selectWindow("ROI Manager");
 run("Close"); 
 
 
-//remove these print statements later
-Array.print(extension_files);
-Array.print(file_list);
-Array.print(record_lines);
+
 
 
 
