@@ -32,6 +32,8 @@ for(i = 0; i < file_list.length; i++){
 	}
 }
 
+output_file_list = getFileList(output_directory); // all files in the output_directory
+
 
 //test that records_file is not already full. A full records_file indicates that the analysis was already completed. 
 if (record_lines.length == extension_files.length) {
@@ -42,6 +44,12 @@ if (record_lines.length > extension_files.length) {
 	exit("Something is wrong. Your records file has more entires than there are " + extension + " files in your input directory."); 
 	}
 
+//Each analyzed image produces a csv file and and an roiset, so we need to test that the output_directory has exactly twice the number of files as listed in the reocrds file
+if (output_file_list.length != 2*record_lines.length ){
+	print("Number of files in your output directory: " + output_file_list.length);
+	print("Number of entries/lines in your records file: " + record_lines.length);
+	exit("Something is wrong. Your output directory should have exactly twice as many files as there are entries in your records file. See Log for details.");
+}
 
 else{
 	
