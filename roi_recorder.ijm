@@ -1,20 +1,21 @@
 
-//function roi_recorder(input_directory, output_directory, records_file, extension) {
+function roi_recorder(input_directory, output_directory, records_file, extension, lineseparator) {
 
-//input directory: type string, the full path to the directory where your images are located
-//output_directory: type string, the full path to the directory where you want output images, roi files, and results to be located> Must be different from input_directory
-//records_file: type string, the full path to the directory where your records_file is located. Note that the records_file is a txt file which records the images from 
-//which you have already taken ROIs. This way, you can stop the program at any time and then pick up where you left off at a later time.
-//You must create an empty records file before you run this code for the first time.
-//}
+// input directory: type string, the full path to the directory where your images are located
 
-output_directory = "/Users/davidtyrpak/Desktop/FIJI_playground/output"
-input_directory = "/Users/davidtyrpak/Desktop/FIJI_playground"
-records_file = "/Users/davidtyrpak/Desktop/FIJI_playground/records_file.txt";
-extension = ".czi";
+/* output_directory: type string, the full path to the directory where you want the csv results file and roiset for each image to be save. 
+Must be different from input_directory. Note that each analyzed image will produce one csv file and one roiset (2 files total). Thus, at any given time, 
+the output directory will have exactly twice as files as there are entires in the records_file. */ 
 
 
-lineseparator = "\n";
+/* records_file: type string, the full path, including filename, to the directory where your records_file is located. 
+Note that the records_file is a txt file which records the images \hich you have already taken ROIs/analyzed. This way, you can stop the program at any time 
+and then pick up where you left off. You must create an empty records file before you run this code for the first time. */
+
+// extension: type string, the image format (e.g. ".czi" )
+
+// lineseparator: type string, used to identify each new line/entry in records_file (e.g. "\n" )
+
 
 record_lines = split(File.openAsString(records_file), lineseparator); // Convert records_file contents to a string, and then converts that string to an array of lines
 
@@ -115,7 +116,7 @@ File.append(name_of_source_image, records_file);
 selectWindow("ROI Manager"); 
 run("Close"); 
 
-
+}
 
 
 
@@ -156,3 +157,18 @@ function ArrayDiff(array1, array2) {
 	}	
 	return diffA;
 }
+
+//output_directory = "/Users/davidtyrpak/Desktop/FIJI_playground/output"
+//input_directory = "/Users/davidtyrpak/Desktop/FIJI_playground"
+//records_file = "/Users/davidtyrpak/Desktop/FIJI_playground/records_file.txt";
+//extension = ".czi";
+//lineseparator = "\n";
+
+roi_recorder("/Users/davidtyrpak/Desktop/FIJI_playground", "/Users/davidtyrpak/Desktop/FIJI_playground/output", "/Users/davidtyrpak/Desktop/FIJI_playground/records_file.txt",
+".czi", "\n")
+
+
+
+
+
+
