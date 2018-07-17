@@ -77,6 +77,12 @@ else{
 //Update extension_files so that the array only contains those files not already record_lines (i.e. not already in the records file).
 extension_files = ArrayDiff(extension_files, record_lines);
 
+//clear the ROI Manager if it's already open
+if (isOpen("ROI Manager")) {
+     selectWindow("ROI Manager");
+     roiManager("reset");
+  }
+
 
 run("Set Measurements...", "area mean standard modal min centroid center perimeter shape feret's integrated median skewness area_fraction display redirect=None decimal=3");
 
@@ -94,7 +100,7 @@ run("ROI Manager...");
 waitForUser( "Pause","Select your ROIs and add them to the ROI manager. Then press OK"); //User selects their ROIs
 
 //ensure that user has selected ROIs before pressing OK
-nROIs = roiManager("count");
+nROIs = roiManager("Count");
 if (nROIs == 0){
 
 selectWindow("ROI Manager"); 
@@ -108,12 +114,19 @@ exit("You pressed OK without first selecting ROIs!")
 
 }
 
-if (nROIs == 1){
+if (nROIs > 1){
 roiManager("Combine");
 }
 
 roiManager("Add");
+nROIs = roiManager("Count"); // update nROIs since we added a new ROI
+
+//Since the last ROI is a Summary of the other ROIs, let's rename the last ROI "Summary"
+roiManager("Select", nROIs - 1); //select the last ROI in the ROIset
+roiManager("Rename", "Summary"); //Rename the last ROI "Summary"
+roiManager("Deselect"); //Deselect "Summary" ROI so that we can measure all of the ROIs
 roiManager("Measure");
+
 
 //close Results table
 selectWindow("Results"); 
