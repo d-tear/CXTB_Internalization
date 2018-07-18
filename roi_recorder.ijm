@@ -1,24 +1,29 @@
 
-function roi_recorder(input_directory, output_directory, records_file, extension, lineseparator, background) {
+function roi_recorder(input_directory, output_directory, records_file, extension, lineseparator, background, channel) {
 
-// input directory: type string, the full path to the directory where your images are located
+/* 
 
-/* output_directory: type string, the full path to the directory where you want the csv results file and roiset for each image to be save. 
-Must be named "background_output" or "nonbackground_output"
-Must be different from input_directory. 
-Note that each analyzed image will produce one csv file and one roiset (2 files total). Thus, at any given time, 
-the output directory will have exactly twice as files as there are entires in the records_file. */ 
+input directory: type string, the full path to the directory where your images are located
+
+output_directory: type string, the full path to the directory where you want the csv results file and roiset for each image to be save. 
+Must be named "background_output" or "nonbackground_output" Must be different from input_directory. 
+Note that each analyzed image will produce one csv file and one roiset (2 files total). 
+Thus, at any given time, the output directory will have exactly twice as many files as there are entries in the records_file. 
 
 
-/* records_file: type string, the full path, including filename, to the directory where your records_file is located. 
-Note that the records_file is a txt file which records the images \hich you have already taken ROIs/analyzed. This way, you can stop the program at any time 
-and then pick up where you left off. You must create an empty records file before you run this code for the first time. */
+records_file: type string, the full path, including filename, to the directory where your records_file is located. 
+Note that the records_file records the images from which you have already taken ROIs/analyzed. This way, you can stop the program at any time 
+and then pick up where you left off. Note that you must create an empty records file before you run this code for the first time. Note also that
+if background  = true, the records_file must be named "background_records_file.txt" else "nonbackground_records_file.txt" 
 
-// extension: type string, the image format (e.g. ".czi" )
+extension: type string, the image format (e.g. ".czi" )
 
-// lineseparator: type string, used to identify each new line/entry in records_file (e.g. "\n" )
+lineseparator: type string, used to identify each new line/entry in records_file (e.g. "\n" )
 
-// background: type boolean, if True, output_directory must be named "background_directory", else "nonbackground_directory"
+background: type boolean, if True, output_directory must be named "background_directory", else "nonbackground_directory"
+
+channel: type int, the specific channel where you are taking measuremenets. Should be the same for both background and nonbackground measurments. 
+ */
 
 
 //The below if else code block ensures that if background = true, the output_directory is named 'background_output, else 'nonbackground_output
@@ -84,6 +89,7 @@ if (isOpen("ROI Manager")) {
   }
 
 
+//set the measurements that you want to record. I typically measure everything just in case
 run("Set Measurements...", "area mean standard modal min centroid center perimeter shape feret's integrated median skewness area_fraction display redirect=None decimal=3");
 
 for(i = 0; i < extension_files.length; i++){
@@ -95,6 +101,16 @@ dotIndex = indexOf(name_of_source_image, ".");
 title = substring(name_of_source_image, 0, dotIndex);
 
 
+/* Let's make a composite image (i.e. display all channels simultaneously). 
+This makes it easier to see entire cells, but note that the measurments are only taken from the selected channel */
+selectWindow(name_of_source_image);
+run("Make Composite");
+//Go to specific channel where you are taking measurements
+Stack.setChannel(channel);
+
+
+
+//open ROI Manager
 run("ROI Manager...");
 
 waitForUser( "Pause","Select your ROIs and add them to the ROI manager. Then press OK"); //User selects their ROIs
