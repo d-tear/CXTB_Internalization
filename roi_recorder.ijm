@@ -94,7 +94,7 @@ run("Set Measurements...", "area mean standard modal min centroid center perimet
 
 for(i = 0; i < extension_files.length; i++){
 	
-open(input_directory + "/" + extension_files[i]);
+open(input_directory + File.separator + extension_files[i]);
 
 name_of_source_image = getTitle; 
 dotIndex = indexOf(name_of_source_image, "."); 
@@ -126,7 +126,7 @@ while (nImages>0) {
           selectImage(nImages); 
           close(); 
       } 
-exit("You pressed OK without first selecting ROIs!")
+exit("You pressed OK without first adding ROIs!")
 
 }
 
@@ -146,7 +146,7 @@ roiManager("Measure");
 
 //close Results table
 selectWindow("Results"); 
-saveAs("Results", output_directory + "/" + title + ".csv");//ROI results
+saveAs("Results", output_directory + File.separator + title + ".csv");//ROI results
 run("Close");
 
 //close open image
@@ -154,7 +154,7 @@ selectWindow(name_of_source_image);
 close();
 
 //close ROI manager
-roiManager("Save", output_directory + "/" + title + "_RoiSet.zip"); 
+roiManager("Save", output_directory + File.separator + title + "_RoiSet.zip"); 
 selectWindow("ROI Manager"); 
 run("Close"); 
 
@@ -216,7 +216,7 @@ function ArrayDiff(array1, array2) {
 //lineseparator = "\n";
 
 roi_recorder("/Users/davidtyrpak/Desktop/FIJI_playground", "/Users/davidtyrpak/Desktop/FIJI_playground/background_output", "/Users/davidtyrpak/Desktop/FIJI_playground/background_records_file.txt",
-".czi", "\n", true)
+".czi", "\n", true, 1)
 
 
 
