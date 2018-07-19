@@ -6,7 +6,7 @@ function roi_recorder(input_directory, output_directory, records_file, extension
 input directory: type string, the full path to the directory where your images are located
 
 output_directory: type string, the full path to the directory where you want the csv results file and roiset for each image to be save. 
-Must be named "background_output" or "nonbackground_output" Must be different from input_directory. 
+Must be different from input_directory. if background = true, must be named "background_output" else "nonbackground_output". 
 Note that each analyzed image will produce one csv file and one roiset (2 files total). 
 Thus, at any given time, the output directory will have exactly twice as many files as there are entries in the records_file. 
 
@@ -26,7 +26,9 @@ channel: type int, the specific channel where you are taking measuremenets. Shou
  */
 
 
-//The below if else code block ensures that if background = true, the output_directory is named 'background_output, else 'nonbackground_output
+/* The below if else code block ensures that if background = true, the output_directory is named "background_output" and the records_file is named "background_records_file.txt"
+else "nonbackground_output" and "nonbackground_records_file.txt"*/
+
 if (background){
 	if (File.getName(output_directory) != "background_output" || File.getName(records_file) != "background_records_file.txt") {
 		exit("Warning! output_directory for background measurements must be named 'background_output' AND records_file must be named 'background_records_file.txt'")}
@@ -39,8 +41,14 @@ if (File.getName(output_directory) != "nonbackground_output" || File.getName(rec
 
 }
 
+//this if else code block ensures that if background = true, results csv files and ROIsets are prefixed with "background_" else "nonbackground_"
+if (background){
+	prefix = "background_";
+}
 
-
+else{
+	prefix = "nonbackground_";
+}
 
 record_lines = split(File.openAsString(records_file), lineseparator); // Convert records_file contents to a string, and then converts that string to an array of lines
 
@@ -146,7 +154,7 @@ roiManager("Measure");
 
 //close Results table
 selectWindow("Results"); 
-saveAs("Results", output_directory + File.separator + title + ".csv");//ROI results
+saveAs("Results", output_directory + File.separator + prefix + title + ".csv");//ROI results
 run("Close");
 
 //close open image
@@ -154,7 +162,7 @@ selectWindow(name_of_source_image);
 close();
 
 //close ROI manager
-roiManager("Save", output_directory + File.separator + title + "_RoiSet.zip"); 
+roiManager("Save", output_directory + File.separator + prefix + title + "_RoiSet.zip"); 
 selectWindow("ROI Manager"); 
 run("Close"); 
 
