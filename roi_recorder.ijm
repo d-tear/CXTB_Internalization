@@ -172,8 +172,6 @@ File.append(name_of_source_image, records_file);
 	}
 }
 
-selectWindow("ROI Manager"); 
-run("Close"); 
 
 }
 
