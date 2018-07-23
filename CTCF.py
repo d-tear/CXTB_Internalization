@@ -8,6 +8,18 @@ import os
 import pandas as pd
 import glob
 
+def basename(filename):
+    """basename is the filename after the prefix "background" or "nonbackground (e.g. basename('background_2_22_a.csv') == '2_22_a.csv')
+   
+   Arguments
+   -----------
+   filename: str, the filename including the extension (e.g. "background_2_22_a.csv")
+   """
+    basename = "_".join(filename.split("_")[1:])
+    return basename
+    
+    
+
 def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, extension = "csv"):
     """Corrected Total Cell Fluorescence
     CTCF = Integrated Density - (Area of selected cell * Mean fluorescence of background readings)
@@ -54,24 +66,51 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
     
     if os.path.basename(CTCF_results_directory) != "CTCF_results":
         raise RuntimeError("Warning! Your CTCF_results_directory must be named 'CTCF_results'.")
+###This is the end of the intial test cases###    
     
     #find all csv files in background directory
     os.chdir(background_directory)
     background_csv_files = [i for i in glob.glob('*.{}'.format(extension))] ##find all the csv files in the background directory
-    background_csv_file_basenames = ["_".join(i.split("_")[1:]) for i in background_csv_files] #the basename is the file name after "background"
-   
-    
+    background_csv_file_basenames = [basename(i) for i in background_csv_files] #the basename is the file name after "background"
+    print(background_csv_file_basenames)
+     
     
     #find all csv files in nonbackground directory
     os.chdir(nonbackground_directory)
     nonbackground_csv_files = [i for i in glob.glob('*.{}'.format(extension))]
-    nonbackground_csv_file_basenames = ["_".join(i.split("_")[1:]) for i in nonbackground_csv_files] #the basename is the file name after "nonbackground"
+    nonbackground_csv_file_basenames = [basename(i) for i in nonbackground_csv_files] #the basename is the file name after "nonbackground"
+    print(background_csv_file_basenames)
     
+    ##background and nonbackground files should have exactly the same basenames. The only difference in their filesnames is the prefix "background" or "nonbackground"
     if nonbackground_csv_file_basenames != background_csv_file_basenames:
         raise RuntimeError("""Warning! Your background and nonbackground directories do not have corresponding results files. 
         Each image should have a background results file and a nonbackground results file.""")
     
+    
+    for background_file in background_csv_files:
+        
+        os.chdir(background_directory)
+        df_Background = pd.read_csv(background_file) # convert csv file to pandas df
+        
+        nrows = df_Background.shape[0] # find the number of rows in the df
+        
+        mean_background_intensity = df_Background.loc[df_Background.index[nrows - 1], "Mean"] ##The mean of the mean background measurements. The column name is "Mean"
+        
+        print(mean_background_intensity) #remove this later    
+        
+        #os.chdir(nonbackground_directory)
+        
+        
+    
+    
+    
 
+        
+       
+        
+        
+        
+        
         
     
 CTCF("/Users/davidtyrpak/Desktop/FIJI_playground/background_output", "/Users/davidtyrpak/Desktop/FIJI_playground/nonbackground_output", 
