@@ -86,9 +86,10 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
         raise RuntimeError("""Warning! Your background and nonbackground directories do not have corresponding results files. 
         Each image should have a background results file and a nonbackground results file.""")
     
-    
+    i = 0 #index used to go through nonbackground_csv_files
     for background_file in background_csv_files:
         
+        ##go to the background directory and caculate the mean intensity of the background ROIs
         os.chdir(background_directory)
         df_Background = pd.read_csv(background_file) # convert csv file to pandas df
         
@@ -96,12 +97,26 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
         
         mean_background_intensity = df_Background.loc[df_Background.index[nrows - 1], "Mean"] ##The mean of the mean background measurements. The column name is "Mean"
         
-        print(mean_background_intensity) #remove this later    
+        ##go to nonbackground directory and extract the IntDen and Area for each nonbackground ROI
+        os.chdir(nonbackground_directory)
         
-        #os.chdir(nonbackground_directory)
+        assert(basename(nonbackground_csv_files[i]) == basename(background_file))
         
+        df_NonBackground = pd.read_csv(nonbackground_csv_files[i])
         
-    
+        nrows = df_NonBackground.shape[0]
+        
+        IntDen = df_NonBackground.loc[0:nrows, "IntDen"].values
+        
+        Area = df_NonBackground.loc[0:nrows, "Area"].values
+        
+        df_NonBackground["CTCF"] = IntDen - Area * mean_background_intensity
+        
+        os.chdir(CTCF_results_directory)
+        df_NonBackground.to_csv("CTCF_results_" + basename(background_file))
+        
+        i  = i + 1
+    return
     
     
 
