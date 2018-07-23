@@ -5,8 +5,10 @@ Created on Wed Jul 18 20:33:13 2018
 @author: davidtyrpak
 """
 import os
+import pandas as pd
+import glob
 
-def CTCF(background_directory, nonbackground_directory, CTCF_results_directory):
+def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, extension = "csv"):
     """Corrected Total Cell Fluorescence
     CTCF = Integrated Density - (Area of selected cell * Mean fluorescence of background readings)
     
@@ -21,6 +23,7 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory):
     
     CTCF_results_directory: str, the full path to the directory where you want the CTCF measurements to be stored. Must be named CTCF_results
     
+    extension: str, the file format of your results files. The default is "csv" (not ".csv")
     """
     
     background_dir_list = os.listdir(background_directory) #list all files in background_directory
@@ -51,6 +54,24 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory):
     
     if os.path.basename(CTCF_results_directory) != "CTCF_results":
         raise RuntimeError("Warning! Your CTCF_results_directory must be named 'CTCF_results'.")
+    
+    #find all csv files in background directory
+    os.chdir(background_directory)
+    background_csv_files = [i for i in glob.glob('*.{}'.format(extension))] ##find all the csv files in the background directory
+    background_csv_file_basenames = ["_".join(i.split("_")[1:]) for i in background_csv_files] #the basename is the file name after "background"
+   
+    
+    
+    #find all csv files in nonbackground directory
+    os.chdir(nonbackground_directory)
+    nonbackground_csv_files = [i for i in glob.glob('*.{}'.format(extension))]
+    nonbackground_csv_file_basenames = ["_".join(i.split("_")[1:]) for i in nonbackground_csv_files] #the basename is the file name after "nonbackground"
+    
+    if nonbackground_csv_file_basenames != background_csv_file_basenames:
+        raise RuntimeError("""Warning! Your background and nonbackground directories do not have corresponding results files. 
+        Each image should have a background results file and a nonbackground results file.""")
+    
+
         
     
 CTCF("/Users/davidtyrpak/Desktop/FIJI_playground/background_output", "/Users/davidtyrpak/Desktop/FIJI_playground/nonbackground_output", 
