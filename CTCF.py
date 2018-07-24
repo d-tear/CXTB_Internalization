@@ -11,7 +11,7 @@ import glob
 def basename(filename):
     """basename is the filename after the prefix "background" or "nonbackground (e.g. basename('background_2_22_a.csv') == '2_22_a.csv')
    
-   Arguments
+   Parameters
    -----------
    filename: str, the filename including the extension (e.g. "background_2_22_a.csv")
    """
@@ -26,7 +26,7 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
     
     Note that the Integrated Density (IntDen) in the above equation is the IntDen of the selected cell.
     
-    Arguments
+    Parameters
     -----------
     
     background_directory: str, the full path to the directory where your background fluorescence measurements and ROIsets are stored. Must be named background_output
