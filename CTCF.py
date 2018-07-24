@@ -20,7 +20,7 @@ def basename(filename):
     
     
 
-def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, extension = "csv"):
+def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, extension = ".csv"):
     """Corrected Total Cell Fluorescence
     CTCF = Integrated Density - (Area of selected cell * Mean fluorescence of background readings)
     
@@ -35,7 +35,7 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
     
     CTCF_results_directory: str, the full path to the directory where you want the CTCF measurements to be stored. Must be named CTCF_results
     
-    extension: str, the file format of your results files. The default is "csv" (not ".csv")
+    extension: str, the file format of your results files. The default is ".csv" 
     """
     
     background_dir_list = os.listdir(background_directory) #list all files in background_directory
@@ -70,16 +70,16 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
     
     #find all csv files in background directory
     os.chdir(background_directory)
-    background_csv_files = [i for i in glob.glob('*.{}'.format(extension))] ##find all the csv files in the background directory
+    background_csv_files = [i for i in glob.glob('*{}'.format(extension))] ##find all the csv files in the background directory
     background_csv_file_basenames = [basename(i) for i in background_csv_files] #the basename is the file name after "background"
-    print(background_csv_file_basenames)
+    
      
     
     #find all csv files in nonbackground directory
     os.chdir(nonbackground_directory)
-    nonbackground_csv_files = [i for i in glob.glob('*.{}'.format(extension))]
+    nonbackground_csv_files = [i for i in glob.glob('*{}'.format(extension))]
     nonbackground_csv_file_basenames = [basename(i) for i in nonbackground_csv_files] #the basename is the file name after "nonbackground"
-    print(background_csv_file_basenames)
+    
     
     ##background and nonbackground files should have exactly the same basenames. The only difference in their filesnames is the prefix "background" or "nonbackground"
     if nonbackground_csv_file_basenames != background_csv_file_basenames:
@@ -128,5 +128,5 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
         
         
     
-CTCF("/Users/davidtyrpak/Desktop/FIJI_playground/background_output", "/Users/davidtyrpak/Desktop/FIJI_playground/nonbackground_output", 
-     "/Users/davidtyrpak/Desktop/FIJI_playground/CTCF_results")
+CTCF("/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/background_output", "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/nonbackground_output", 
+     "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/CTCF_results")
