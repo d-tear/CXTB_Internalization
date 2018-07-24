@@ -28,13 +28,17 @@ def random_rename(input_directory, output_directory, extension):
     1) Details.csv, which records a timestamp, username, hostname, etc
     2) Key.csv, which matches each random number renamed file with its original filename
     
+    Parameters
+    ------------
     input_directory: str type; the full path to the directory where your files are located. Should only contain files to be renamed.
     output_directory: str type; the full path to the directory where your renamed files will be located. Must be empty.
     extension: str type; the file format (e.g. ".txt", ".czi", ".csv", ".tif")
     
     """
     
-    assert(input_directory != output_directory) #ensure input_directory is different from output_directory
+    if input_directory == output_directory:
+        raise RuntimeError("Warning! Your output_directory must be different from your input_directory")
+    
     assert(type(input_directory) == str) #ensure proper type
     assert(type(output_directory) == str) #ensure proper type
     assert(type(extension) == str) #ensure proper type
