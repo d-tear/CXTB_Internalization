@@ -86,6 +86,9 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
         raise RuntimeError("""Warning! Your background and nonbackground directories do not have corresponding results files. 
         Each image should have a background results file and a nonbackground results file.""")
     
+    ##Create empty pandas df which will be our Summary csv file
+    df_Summary = pd.DataFrame(columns = ["File_Name", "CTCF","Number_of_Cells"])
+    
     i = 0 #index used to go through nonbackground_csv_files
     for background_file in background_csv_files:
         
