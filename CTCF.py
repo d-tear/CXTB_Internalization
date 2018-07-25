@@ -87,7 +87,10 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
         Each image should have a background results file and a nonbackground results file.""")
     
     ##Create empty pandas df which will be our Summary csv file
-    df_Summary = pd.DataFrame(columns = ["File_Name", "CTCF","Number_of_Cells"])
+    df_Summary = pd.DataFrame(columns = ["Random_File_Name", "CTCF","Number_of_Cells"])
+    CTCF_list = []
+    ncells_list = []
+    
     
     i = 0 #index used to go through nonbackground_csv_files
     for background_file in background_csv_files:
@@ -109,16 +112,29 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
         
         nrows = df_NonBackground.shape[0]
         
+        ncells = nrows - 1 #The number of cells/ROIs equals the number of rows minus the final summary row
+        
         IntDen = df_NonBackground.loc[0:nrows, "IntDen"].values
         
         Area = df_NonBackground.loc[0:nrows, "Area"].values
         
-        df_NonBackground["CTCF"] = IntDen - Area * mean_background_intensity
+        CTCF_ = IntDen - Area * mean_background_intensity
+        
+        df_NonBackground["CTCF"] = CTCF_
         
         os.chdir(CTCF_results_directory)
         df_NonBackground.to_csv("CTCF_results_" + basename(background_file))
         
+        CTCF_list.append(CTCF_[-1])
+        ncells_list.append(ncells)
+        
         i  = i + 1
+        
+    df_Summary["Random_File_Name"] = nonbackground_csv_file_basenames
+    df_Summary["Number_of_Cells"] = ncells_list
+    df_Summary["CTCF"] = CTCF_list
+    df_Summary.to_csv("Summary_CTCF_results.csv")
+    
     return
     
     
