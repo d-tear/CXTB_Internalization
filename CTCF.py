@@ -118,14 +118,14 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
         
         Area = df_NonBackground.loc[0:nrows, "Area"].values
         
-        CTCF_ = IntDen - Area * mean_background_intensity
+        CTCF_ = IntDen - Area * mean_background_intensity ##CTCF_ (with underscore) to distinguish from the function CTCF. Note that CTCF_ is a list
         
         df_NonBackground["CTCF"] = CTCF_
         
         os.chdir(CTCF_results_directory)
         df_NonBackground.to_csv("CTCF_results_" + basename(background_file))
         
-        CTCF_list.append(CTCF_[-1])
+        CTCF_list.append(CTCF_[-1]) ##Append the last CTCF_ value/theSummary CTCF_ value. CTCF_ is a list (Because CTCF measurment is calculated for each Cell/ROI)
         ncells_list.append(ncells)
         
         i  = i + 1
@@ -137,15 +137,59 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
     
     return
     
+def UnrandomRename(Summary_CTCF_File, Key, output_directory):
     
-
+    df_Summary = pd.read_csv(Summary_CTCF_File)
+    df_Key = pd.read_csv(Key)
+    
+    
+    
+    nrows_key = df_Key.shape[0] #number of rows in Key file
+    row_index = 0 
+    random_dict = {} #key is random filename, and value is the original filename
+    
+    ##go through Key file and collect random numbers and their corresponding original filenames
+    while row_index < nrows_key: ##go through each row in the Key file
+        random_filename = df_Key.loc[row_index, "random_number"] #collect the random number
         
-       
+        original_filename = df_Key.loc[row_index, "filename"] #collect its corresponding original filename
         
+        random_dict[random_filename] = original_filename #key is random number, value is original filename
+        row_index = row_index + 1
         
+    ##Now we will go through the Summary_CTCF_File, go to the column named "Random_File_Name", and match each filename with its original fielname via random_dict 
+    print(random_dict)
+    original_filename_list = []
+    nrows_summary = df_Summary.shape[0]
+    row_index = 0
+    
+    while row_index < nrows_summary:
         
+        random_csvfile_name = df_Summary.loc[row_index, "Random_File_Name"] # (e.g. "256.csv")
         
+        base_filename = random_csvfile_name.split(".")[0] # (e.g. "256", the random number/part of the filename before the file format extension)
+        
+        base_filename = int(base_filename) #remember that base_filename is a random number, but because we use the random number as filename, we converted the random number to a string
+        
+        assert(type(base_filename) == int)
+        
+        filename = random_dict[base_filename] 
+        
+        original_filename_list.append(filename)
+        
+        row_index = row_index + 1
+    
+    df_Summary["Original_Image"] = original_filename_list
+    
+    os.chdir(output_directory)
+    
+    df_Summary.to_csv("Master.csv")
+        
+    return    
         
     
 CTCF("/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/background_output", "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/nonbackground_output", 
      "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/CTCF_results")
+
+UnrandomRename("/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/CTCF_results/Summary_CTCF_results.csv",
+               "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/Key.csv", "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/CTCF_results" )    
