@@ -161,7 +161,7 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
     original_filename_list = []
     nrows_summary = df_Summary.shape[0]
     row_index = 0
-    
+    random_number_list = []
     while row_index < nrows_summary:
         
         random_csvfile_name = df_Summary.loc[row_index, "Input_File_Name"] # (e.g. "nonbackground_256.csv")
@@ -174,7 +174,7 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
         
         assert(type(random_number) == int)
         
-        print(random_number)
+        random_number_list.append(random_number)
         
         filename = random_dict[random_number] 
         
@@ -183,6 +183,7 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
         row_index = row_index + 1
     
     df_Summary["Original_Image"] = original_filename_list
+    df_Summary["Random_Number"] = random_number_list
     
     os.chdir(output_directory)
     
