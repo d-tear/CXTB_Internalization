@@ -40,7 +40,7 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
     
     background_dir_list = os.listdir(background_directory) #list all files in background_directory
     nonbackground_dir_list = os.listdir(nonbackground_directory) #list all files in nonbackground_directory
-    CTCF_results_dir_list = os.listdir(CTCF_results_directory) # list allfiles in CTCF_results_directory, should initially be empty
+    CTCF_results_dir_list = os.listdir(CTCF_results_directory) # list all files in CTCF_results_directory, should initially be empty
     
     
     ##The below if statements ensure that the directories are properly specified, have the correct number of files, and that we are not overwriting results
@@ -87,7 +87,7 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
         Each image should have a background results file and a nonbackground results file.""")
     
     ##Create empty pandas df which will be our Summary csv file
-    df_Summary = pd.DataFrame(columns = ["Random_File_Name", "CTCF","Number_of_Cells"])
+    df_Summary = pd.DataFrame(columns = ["Input_File_Name", "CTCF_Summary","Number_of_Cells"])
     CTCF_list = []
     ncells_list = []
     
@@ -123,17 +123,17 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
         df_NonBackground["CTCF"] = CTCF_
         
         os.chdir(CTCF_results_directory)
-        df_NonBackground.to_csv("CTCF_results_" + basename(background_file))
+        df_NonBackground.to_csv("CTCF_results_" + basename(background_file), index = False)
         
         CTCF_list.append(CTCF_[-1]) ##Append the last CTCF_ value/theSummary CTCF_ value. CTCF_ is a list (Because CTCF measurment is calculated for each Cell/ROI)
         ncells_list.append(ncells)
         
         i  = i + 1
         
-    df_Summary["Random_File_Name"] = nonbackground_csv_file_basenames
+    df_Summary["Input_File_Name"] = nonbackground_csv_files
     df_Summary["Number_of_Cells"] = ncells_list
-    df_Summary["CTCF"] = CTCF_list
-    df_Summary.to_csv("Summary_CTCF_results.csv")
+    df_Summary["CTCF_Summary"] = CTCF_list
+    df_Summary.to_csv("Summary_CTCF_results.csv", index = False)
     
     return
     
@@ -158,22 +158,25 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
         row_index = row_index + 1
         
     ##Now we will go through the Summary_CTCF_File, go to the column named "Random_File_Name", and match each filename with its original fielname via random_dict 
-    print(random_dict)
     original_filename_list = []
     nrows_summary = df_Summary.shape[0]
     row_index = 0
     
     while row_index < nrows_summary:
         
-        random_csvfile_name = df_Summary.loc[row_index, "Random_File_Name"] # (e.g. "256.csv")
+        random_csvfile_name = df_Summary.loc[row_index, "Input_File_Name"] # (e.g. "nonbackground_256.csv")
         
-        base_filename = random_csvfile_name.split(".")[0] # (e.g. "256", the random number/part of the filename before the file format extension)
+        base_filename = basename(random_csvfile_name) #(e.g. "256.csv")
         
-        base_filename = int(base_filename) #remember that base_filename is a random number, but because we use the random number as filename, we converted the random number to a string
+        random_number = base_filename.split(".")[0] # (e.g. "256", the random number/part of the filename before the file format extension)
         
-        assert(type(base_filename) == int)
+        random_number = int(random_number) #remember that base_filename is a random number, but because we use the random number as filename, we converted the random number to a string
         
-        filename = random_dict[base_filename] 
+        assert(type(random_number) == int)
+        
+        print(random_number)
+        
+        filename = random_dict[random_number] 
         
         original_filename_list.append(filename)
         
@@ -183,7 +186,7 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
     
     os.chdir(output_directory)
     
-    df_Summary.to_csv("Master.csv")
+    df_Summary.to_csv("Master.csv", index = False)
         
     return    
         
