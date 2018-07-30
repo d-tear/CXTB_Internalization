@@ -21,11 +21,20 @@ def basename(filename):
     
 
 def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, extension = ".csv"):
-    """Corrected Total Cell Fluorescence
+    """
+    Description
+    ------------
+    This function calculates Corrected Total Cell Fluorescence (CTCF)
+    
     CTCF = Integrated Density - (Area of selected cell * Mean fluorescence of background readings)
     
     Note that the Integrated Density (IntDen) in the above equation is the IntDen of the selected cell.
     
+    Workflow
+    ---------
+    
+    Random_filename_generator.py --> roi_recorder.ijm --> CTCF.py --> UnrandomRename.py
+     
     Parameters
     -----------
     
@@ -36,6 +45,20 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
     CTCF_results_directory: str, the full path to the directory where you want the CTCF measurements to be stored. Must be named CTCF_results
     
     extension: str, the file format of your results files. The default is ".csv" 
+    
+    Returns
+    -------
+    
+   This function does not return anything
+    
+   This function calculates the CTCF for each background/nonbackground pair. These CTCF results are saved in csv files in the specified
+   CTCF_results_directory.
+   
+   This function also creates a "Summary_CTCF_results.csv" file. This file appends the
+   summary rows from each individual CTCF results csv file. Summary_CTCF_results.csv
+   is also saved in the specified CTCF_results directory.
+    
+    
     """
     
     background_dir_list = os.listdir(background_directory) #list all files in background_directory
@@ -144,6 +167,10 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
     ------------
     This function unrandomizes file names which were randomized with the Random_filename_generator function
     
+    Workflow
+    ------------
+    Random_filename_generator.py --> roi_recorder.ijm --> CTCF.py --> UnrandomRename.py
+    
     Parameters
     -----------
     Summary_CTCF_File: str, the full file path the Summary_CTCF_results.csv file produced by the CTCF function
@@ -151,7 +178,7 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
     Key: str, the full file path to the Key.csv file produced by the Random_filename_generator function
     
     output_directory: str, the full file path where you want the Master.csv file, which contains the Summary_CTCF_results with
-    unrandomized file names, to be saved.
+    unrandomized file names, to be saved. There are no restrictions on output_directory
     
     Returns
     -------
@@ -160,6 +187,7 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
     This function saves a Master_CTCF.csv file in the specified output_directory
     
     """
+    
     
     df_Summary = pd.read_csv(Summary_CTCF_File)
     df_Key = pd.read_csv(Key)
