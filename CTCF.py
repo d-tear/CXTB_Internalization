@@ -139,6 +139,28 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
     
 def UnrandomRename(Summary_CTCF_File, Key, output_directory):
     
+    """
+    Description
+    ------------
+    This function unrandomizes file names which were randomized with the Random_filename_generator function
+    
+    Parameters
+    -----------
+    Summary_CTCF_File: str, the full file path the Summary_CTCF_results.csv file produced by the CTCF function
+    
+    Key: str, the full file path to the Key.csv file produced by the Random_filename_generator function
+    
+    output_directory: str, the full file path where you want the Master.csv file, which contains the Summary_CTCF_results with
+    unrandomized file names, to be saved.
+    
+    Returns
+    -------
+    This function does not return anything.
+    
+    This function saves a Master_CTCF.csv file in the specified output_directory
+    
+    """
+    
     df_Summary = pd.read_csv(Summary_CTCF_File)
     df_Key = pd.read_csv(Key)
     
@@ -150,9 +172,9 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
     
     ##go through Key file and collect random numbers and their corresponding original filenames
     while row_index < nrows_key: ##go through each row in the Key file
-        random_filename = df_Key.loc[row_index, "random_number"] #collect the random number
+        random_filename = df_Key.loc[row_index, "random_number"] #collect the random number from Key.csv
         
-        original_filename = df_Key.loc[row_index, "filename"] #collect its corresponding original filename
+        original_filename = df_Key.loc[row_index, "filename"] #collect its corresponding original filename from Key.csv
         
         random_dict[random_filename] = original_filename #key is random number, value is original filename
         row_index = row_index + 1
@@ -187,7 +209,7 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
     
     os.chdir(output_directory)
     
-    df_Summary.to_csv("Master.csv", index = False)
+    df_Summary.to_csv("Master_CTCF.csv", index = False)
         
     return    
         
