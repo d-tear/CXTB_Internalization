@@ -8,6 +8,25 @@ import os
 import pandas as pd
 import glob
 
+def listdir_nohidden(path):
+    """
+    Description
+    -----------
+    This function returns a list of all nonhidden files in the directory specified by path
+    
+    Parameters
+    -----------
+    
+    path: str, the full path to the directory
+    
+    Returns
+    -------
+    
+    returns a list containing all nonhidden files in the directory. 
+    """
+    return glob.glob(os.path.join(path, '*'))
+   
+
 def basename(filename):
     """basename is the filename after the prefix "background" or "nonbackground (e.g. basename('background_2_22_a.csv') == '2_22_a.csv')
    
@@ -33,7 +52,7 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
     Workflow
     ---------
     
-    Random_filename_generator.py --> roi_recorder.ijm --> CTCF.py --> UnrandomRename.py
+    Random_filename_generator.py --> roi_recorder.ijm --> CTCF.CTCF.py --> CTCF.UnrandomRename.py
      
     Parameters
     -----------
@@ -61,9 +80,9 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
     
     """
     
-    background_dir_list = os.listdir(background_directory) #list all files in background_directory
-    nonbackground_dir_list = os.listdir(nonbackground_directory) #list all files in nonbackground_directory
-    CTCF_results_dir_list = os.listdir(CTCF_results_directory) # list all files in CTCF_results_directory, should initially be empty
+    background_dir_list = listdir_nohidden(background_directory) #list all nonhidden files in background_directory
+    nonbackground_dir_list = listdir_nohidden(nonbackground_directory) #list all nonhidden files in nonbackground_directory
+    CTCF_results_dir_list = listdir_nohidden(CTCF_results_directory) # list all nonhidden files in CTCF_results_directory. Should initially be empty (except for hidden files)
     
     
     ##The below if statements ensure that the directories are properly specified, have the correct number of files, and that we are not overwriting results
@@ -156,8 +175,10 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
     df_Summary["Input_File_Name"] = nonbackground_csv_files
     df_Summary["Number_of_Cells"] = ncells_list
     df_Summary["CTCF_Summary"] = CTCF_list
+     
     df_Summary.to_csv("Summary_CTCF_results.csv", index = False)
     
+   
     return
     
 def UnrandomRename(Summary_CTCF_File, Key, output_directory):
@@ -169,7 +190,7 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
     
     Workflow
     ------------
-    Random_filename_generator.py --> roi_recorder.ijm --> CTCF.py --> UnrandomRename.py
+    Random_filename_generator.py --> roi_recorder.ijm --> CTCF.CTCF.py --> CTCF.UnrandomRename.py
     
     Parameters
     -----------
@@ -207,7 +228,7 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
         random_dict[random_filename] = original_filename #key is random number, value is original filename
         row_index = row_index + 1
         
-    ##Now we will go through the Summary_CTCF_File, go to the column named "Random_File_Name", and match each filename with its original fielname via random_dict 
+    ##Now we will go through the Summary_CTCF_File, go to the column named "Input_File_Name", and match each filename with its original fielname via random_dict 
     original_filename_list = []
     nrows_summary = df_Summary.shape[0]
     row_index = 0
