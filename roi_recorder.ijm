@@ -139,7 +139,7 @@ exit("You pressed OK without first adding ROIs!")
 }
 
 
-/* Bug: If you select "Show All" on the ROIManager and you have only added one ROI, and then you press OK, you will
+/* Bug: If you've only added one ROI, and you  select "Show All", and then you press OK, you will
 recieve an error: "The active image does not have a selection"
 I dont know idea why this occurs, and it only happens if you have one ROI,
 but the offending code is likely within the below ifelse block.
