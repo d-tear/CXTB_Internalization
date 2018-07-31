@@ -140,9 +140,10 @@ exit("You pressed OK without first adding ROIs!")
 
 if (nROIs > 1){
 roiManager("Combine");
+roiManager("Add");
 }
 
-roiManager("Add");
+
 nROIs = roiManager("Count"); // update nROIs since we added a new ROI
 
 //Since the last ROI is a Summary of the other ROIs, let's rename the last ROI "Summary"
@@ -215,14 +216,12 @@ function ArrayDiff(array1, array2) {
 	return diffA;
 }
 
-//output_directory = "/Users/davidtyrpak/Desktop/FIJI_playground/output"
-//input_directory = "/Users/davidtyrpak/Desktop/FIJI_playground"
-//records_file = "/Users/davidtyrpak/Desktop/FIJI_playground/records_file.txt";
+
 //extension = ".czi";
 //lineseparator = "\n";
 
-roi_recorder("/Users/davidtyrpak/Desktop/FIJI_playground", "/Users/davidtyrpak/Desktop/FIJI_playground/background_output", "/Users/davidtyrpak/Desktop/FIJI_playground/background_records_file.txt",
-".czi", "\n", true, 1)
+roi_recorder("/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output", "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/nonbackground_output", "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/nonbackground_records_file.txt",
+".czi", "\n", false, 2)
 
 
 
