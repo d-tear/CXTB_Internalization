@@ -1,6 +1,4 @@
 
-sum_projections("/Users/davidtyrpak/Desktop/test", "/Users/davidtyrpak/Desktop/test/output", ".tif")
-//sum_projections("C:\\Users\\user\\Desktop\\test", "C:\\Users\\user\\Desktop\\test\\output", ".czi")
 
 function sum_projections(input_directory, output_directory, extension) {
 
@@ -73,12 +71,14 @@ saveAs("Tiff",  output_directory + File.separator + title);
 //close sum projection
 close();
 
-}
+} //end of for loop
 
 
 
 }//end of function
 
 
+sum_projections("/Users/davidtyrpak/Desktop/test", "/Users/davidtyrpak/Desktop/test/output", ".tif")
+//sum_projections("C:\\Users\\user\\Desktop\\test", "C:\\Users\\user\\Desktop\\test\\output", ".czi")
 
 
