@@ -78,7 +78,6 @@ close();
 }//end of function
 
 
-sum_projections("/Users/davidtyrpak/Desktop/test", "/Users/davidtyrpak/Desktop/test/output", ".tif")
-//sum_projections("C:\\Users\\user\\Desktop\\test", "C:\\Users\\user\\Desktop\\test\\output", ".czi")
-
+//Uncomment the below call to sum_projections and modify to your specific input directory, output directory, and extension type
+//sum_projections("path/to/input_directory", "path/to/output_directory", ".tif")
 
