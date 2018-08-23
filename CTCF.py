@@ -129,7 +129,7 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
         Each image should have a background results file and a nonbackground results file.""")
     
     ##Create empty pandas df which will be our Summary csv file
-    df_Summary = pd.DataFrame(columns = ["Input_File_Name", "CTCF_Summary","Number_of_Cells"])
+    df_Summary = pd.DataFrame(columns = ["Nonbackground_Input_File_Name", "Background_Input_File_Name", "CTCF_Summary","Number_of_Cells"])
     CTCF_list = []
     ncells_list = []
     
@@ -172,7 +172,8 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
         
         i  = i + 1
         
-    df_Summary["Input_File_Name"] = nonbackground_csv_files
+    df_Summary["Nonbackground_Input_File_Name"] = nonbackground_csv_files
+    df_Summary["Background_Input_File_Name"] = background_csv_files
     df_Summary["Number_of_Cells"] = ncells_list
     df_Summary["CTCF_Summary"] = CTCF_list
      
@@ -235,7 +236,7 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
     random_number_list = []
     while row_index < nrows_summary:
         
-        random_csvfile_name = df_Summary.loc[row_index, "Input_File_Name"] # (e.g. "nonbackground_256.csv")
+        random_csvfile_name = df_Summary.loc[row_index, "Nonbackground_Input_File_Name"] # (e.g. "nonbackground_256.csv")
         
         base_filename = basename(random_csvfile_name) #(e.g. "256.csv")
         
@@ -263,8 +264,8 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
     return    
         
     
-CTCF("/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/background_output", "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/nonbackground_output", 
-     "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/CTCF_results")
+CTCF("/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/background_output", "/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/nonbackground_output", 
+     "/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/CTCF_results")
 
-UnrandomRename("/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/CTCF_results/Summary_CTCF_results.csv",
-               "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/Key.csv", "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/CTCF_results" )    
+#UnrandomRename("/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/CTCF_results/Summary_CTCF_results.csv",
+               #"/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/Key.csv", "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/CTCF_results" )    
