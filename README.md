@@ -3,16 +3,42 @@ Purpose: I created his pipeline is to calculate fluorescent cholera toxin (CXTB)
 However, this pipeline could be adapted to study fluorescent ligand internalization in a variety of contexts. 
 In addition, this pipeline is modular. Depending on your needs, you can pick and choose different parts of the pipeline to answer your research question.
 
-Step 1) sum_projections.ijm is used to convert each z-stack image into a sum projection. 
-input: confocal z-stack images
-output: sum projection images
+STEP 1) sum_projections.ijm is used to convert each z-stack image into a sum projection. 
+input: 
 
-Step 2) Random_filename_generator.py is used to rename each sum projection image with a 3 digit random number.
-input: the sum projection images from sum_projections.ijm
-output: randomly renamed sum projection images
-Note: Random_filename_generator.py can actually be used to randomly rename any type of file.
+1) input_directory: type string, the full path to the directory where your z-stack images are located
 
-Step 3) Measure nonbackground: use roi_recorder.ijm to draw ROIs around cells of interest.
+2) output_directory: type string, the full path to the directory where you want the sum intensity projection images to be saved
+
+3) extension: type string, the image format (e.g. ".czi" )
+
+output: 
+
+1) sum projection images are saved in your specified output_directory
+
+------------------------------------------------------------------------------------------------------------------------------
+STEP 2) Random_filename_generator.py is used to rename each sum projection image with a 3 digit random number.
+
+input: 
+
+1)  input_directory: str type; the full path to the directory where your files are located. Should only contain files to be renamed.
+    
+2) output_directory: str type; the full path to the directory where your renamed files will be located. Must be empty.
+
+3) extension: str type; the file format (e.g. ".txt", ".czi", ".csv", ".tif")
+
+Note: Random_filename_generator.py can be used to randomly rename any type of file.
+
+output:
+
+1) Randomly renamed files in the specified output_directory
+
+2)  The code will also generate two .csv files in the specified output directory:
+    1) Details.csv, which records a timestamp, username, hostname, etc
+    2) Key.csv, which matches each random number renamed file with its original filename
+------------------------------------------------------------------------------------------------------------------------------
+
+STEP 3) Measure nonbackground: use roi_recorder.ijm to draw ROIs around cells of interest.
 Note: when measuring nonbackground, output directory must be named "nonbackground_output"
 input: 
 1) The randomly renamed sum projection images output from Random_filename_generator.py
@@ -22,7 +48,8 @@ Each image ouputs
 1) a csv file of measurements for each of its ROIs. 
 2) an ROIset containing the ROIs for that image.
 
-Step 4) Measure background: use roi_recorder.ijm to draw ROIs around empty spaces in the channel of interest.
+------------------------------------------------------------------------------------------------------------------------------
+STEP 4) Measure background: use roi_recorder.ijm to draw ROIs around empty spaces in the channel of interest.
 Note: when measuring background, output directory must be named "background_output"
 input:
 1) The randomly renamed sum projection images output from Random_filename_generator.py (the same images
@@ -33,7 +60,8 @@ Each image outputs
 1) a csv file of measurements for each of its ROIs.
 2) an ROIset containing the ROIs for that image.
 
-Step 5) Use CTCF.CTCF (python file named CTCF, function named CTCF) to measure Corrected Total Cell Fluorescence (CTCF). CTCF is a simple method for normnalizing the integrated density of your nonbackground ROIs by subtracting the background fluorescnce in your image. You can read more about CTCF here: https://celldivisionlab.com/2015/08/12/using-imagej-to-measure-cell-fluorescence/
+------------------------------------------------------------------------------------------------------------------------------
+STEP 5) Use CTCF.CTCF (python file named CTCF, function named CTCF) to measure Corrected Total Cell Fluorescence (CTCF). CTCF is a simple method for normnalizing the integrated density of your nonbackground ROIs by subtracting the background fluorescnce in your image. You can read more about CTCF here: https://celldivisionlab.com/2015/08/12/using-imagej-to-measure-cell-fluorescence/
 
 input:
 
@@ -53,7 +81,8 @@ output:
 summary rows from each individual CTCF results csv file. Summary_CTCF_results.csv
 is also saved in the specified CTCF_results directory.
 
-Step 6) Use CTCF.UnrandomRename (python file named CTCF, function named UnrandomRename) to update the Summary_CTCF_File from Step 5 with the original file name for each image.
+------------------------------------------------------------------------------------------------------------------------------
+STEP 6) Use CTCF.UnrandomRename (python file named CTCF, function named UnrandomRename) to update the Summary_CTCF_File from Step 5 with the original file name for each image.
 In more detail: Up to this point, all your images have been renamed with a random number. To get back the original image names, you will now use CTCF.UnrandomRename to update the Summary_CTCF_File and convert the random nubmers back to their original filename.
 
 input: 
