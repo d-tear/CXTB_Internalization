@@ -2,7 +2,7 @@
 Purpose: I created his pipeline is to calculate fluorescent cholera toxin (CXTB) internalization from confocal z-stacks. 
 However, this pipeline could be adapted to study fluorescent ligand internalization in a variety of contexts. 
 In addition, this pipeline is modular. Depending on your needs, you can pick and choose different parts of the pipeline to answer your research question.
-
+------------------------------------------------------------------------------------------------------------------------------
 STEP 1) sum_projections.ijm is used to convert each z-stack image into a sum projection. 
 input: 
 
@@ -31,7 +31,7 @@ Note: Random_filename_generator.py can be used to randomly rename any type of fi
 
 output:
 
-1) Randomly renamed files in the specified output_directory
+1) Randomly renamed files in the specified output directory
 
 2)  The code will also generate two .csv files in the specified output directory:
     1) Details.csv, which records a timestamp, username, hostname, etc
@@ -41,21 +41,36 @@ output:
 STEP 3) Measure nonbackground: use roi_recorder.ijm to draw ROIs around cells of interest.
 Note: when measuring nonbackground, output directory must be named "nonbackground_output"
 input: 
-1) The randomly renamed sum projection images output from Random_filename_generator.py
-2) absolute path to an emtpy .txt file named "nonbackground_records_file.txt"
+
+1) input directory: type string, the full path to the directory where your randomly renamed images are located
+
+2) output_directory: type string, the full path to the directory where you want the csv results file and roiset for each image to be save. Must be different from input_directory. if background = true, must be named "background_output" else "nonbackground_output". Note that each analyzed image will produce one csv file and one roiset (2 files total). 
+Thus, at any given time, the output directory will have exactly twice as many files as there are entries in the records_file. 
+
+
+3) records_file: type string, the full path, including filename, to the directory where your records_file is located. 
+Note that the records_file records the images from which you have already taken ROIs/analyzed. This way, you can stop the program at any time and then pick up where you left off. Note that you must create an empty records file before you run this code for the first time. Note also thatif background  = true, the records_file must be named "background_records_file.txt" else "nonbackground_records_file.txt" 
+
+4) extension: type string, the image format (e.g. ".czi" )
+
+5) lineseparator: type string, used to identify each new line/entry in records_file (e.g. "\n" )
+
+6) background: type boolean, if True, output_directory must be named "background_directory", else "nonbackground_directory"
+
+7) channel: type int, the specific channel where you are taking measuremenets. Should be the same for both background and nonbackground measurments. 
+
 output:  
 Each image ouputs 
 1) a csv file of measurements for each of its ROIs. 
 2) an ROIset containing the ROIs for that image.
 
 ------------------------------------------------------------------------------------------------------------------------------
-STEP 4) Measure background: use roi_recorder.ijm to draw ROIs around empty spaces in the channel of interest.
+STEP 4) Measure background: use roi_recorder.ijm to draw ROIs around empty spaces in the channel of interest. To be accuarate, draw at least 3 background ROIs.
 Note: when measuring background, output directory must be named "background_output"
-input:
-1) The randomly renamed sum projection images output from Random_filename_generator.py (the same images
-you measured nonbackground)
-2) absolute path to an emtpy .txt file named "background_records_file.txt"
-output:
+input: Excatly the same as for STEP 3, EXCEPT: if you are measuring background, your output directory must be named
+background_output and your records file must be named "background_records_file.txt"
+
+output: The same as in STEP 3.
 Each image outputs
 1) a csv file of measurements for each of its ROIs.
 2) an ROIset containing the ROIs for that image.
