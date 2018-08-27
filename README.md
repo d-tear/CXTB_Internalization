@@ -1,6 +1,7 @@
 # CXTB_Internalization
-Purpose: This pipeline is used to calculate fluorescsnet cholera toxin (CXTB) internalization from confocal z-stacks. 
+Purpose: I created his pipeline is to calculate fluorescent cholera toxin (CXTB) internalization from confocal z-stacks. 
 However, this pipeline could be adapted to study fluorescent ligand internalization in a variety of contexts. 
+In addition, this pipeline is modular. Depending on your needs, you can pick and choose different parts of the pipeline to answer your research question.
 
 Step 1) sum_projections.ijm is used to convert each z-stack image into a sum projection. 
 input: confocal z-stack images
