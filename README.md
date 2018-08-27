@@ -1,5 +1,5 @@
 # CXTB_Internalization
-Purpose: I created his pipeline is to calculate fluorescent cholera toxin (CXTB) internalization from confocal z-stacks. 
+Purpose: I created this pipeline is to calculate fluorescent cholera toxin (CXTB) internalization from confocal z-stacks. 
 However, this pipeline could be adapted to study fluorescent ligand internalization in a variety of contexts. 
 In addition, this pipeline is modular. Depending on your needs, you can pick and choose different parts of the pipeline to answer your research question.
 ------------------------------------------------------------------------------------------------------------------------------
