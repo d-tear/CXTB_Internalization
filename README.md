@@ -11,8 +11,13 @@ input: the sum projection images from sum_projections.ijm
 output: randomly renamed sum projection images
 Note: Random_filename_generator.py can actually be used to randomly rename any type of file.
 
-Step 3) use roi_recorder.ijm to draw ROIs around their cells of interest (i.e. measure nonbackground)
-However, you could also measure background first by using roi_recorder.ijm to select background ROIs in each of your images.
-input: The randomly renamed sum projection images output from Random_filename_generator.py
-output: 
+Step 3) use roi_recorder.ijm to draw ROIs around cells of interest (i.e. measure nonbackground)
+Note: if measuring nonbackground, output directory must be named "nonbackground_output"
+input: 
+1) The randomly renamed sum projection images output from Random_filename_generator.py
+2) emtpy .txt file named "nonbackground_records_file.txt"
+output:  
+Each image ouputs 1) a csv file of measurements for each of its ROIs. 2) an ROIset containing the ROIs
+
+
 
