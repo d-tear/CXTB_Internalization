@@ -31,9 +31,9 @@ Note: Random_filename_generator.py can be used to randomly rename any type of fi
 
 output:
 
-1) Randomly renamed files in the specified output directory
+1) Randomly renamed files in the specified output_directory
 
-2)  The code will also generate two .csv files in the specified output directory:
+2)  The code will also generate two .csv files in the specified output_directory:
     1) Details.csv, which records a timestamp, username, hostname, etc
     2) Key.csv, which matches each random number renamed file with its original filename
 ------------------------------------------------------------------------------------------------------------------------------
