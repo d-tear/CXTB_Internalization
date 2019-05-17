@@ -267,5 +267,5 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
 CTCF("/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/background_output", "/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/nonbackground_output", 
      "/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/CTCF_results")
 
-#UnrandomRename("/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/CTCF_results/Summary_CTCF_results.csv",
-               #"/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/Key.csv", "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/CTCF_results" )    
+UnrandomRename("/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/CTCF_results/Summary_CTCF_results.csv",
+               "/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/Key.csv", "/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/CTCF_results")    
