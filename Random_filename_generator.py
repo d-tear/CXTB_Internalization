@@ -126,5 +126,5 @@ def random_rename(input_directory, output_directory, extension):
     return None
     
 ###############Directly below is where you paste your input directory, output directory, and extension###################
-random_rename("/Users/davidtyrpak/Desktop/python_playground/czi_input", "/Users/davidtyrpak/Desktop/python_playground/czi_output", ".czi")
+random_rename("/Users/davidtyrpak/Dropbox/Lab/Data/Images/cells/Lipid Rafts/HEK293T/2017_01_09/HEK293T", "/Users/davidtyrpak/Dropbox/Lab/Data/Images/cells/Lipid Rafts/HEK293T/2017_01_09/HEK293T/random_images", ".czi")
 
