@@ -227,8 +227,10 @@ function ArrayDiff(array1, array2) {
 //extension = ".czi";
 //lineseparator = "\n";
 
-roi_recorder("/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output", "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/nonbackground_output", "/Users/davidtyrpak/Desktop/FIJI_playground/random_number_output/nonbackground_records_file.txt",
-".czi", "\n", false, 2)
+//roi_recorder(input_directory, output_directory, records_file, extension, lineseparator, background, channel)
+
+roi_recorder("/Users/davidtyrpak/Desktop/python_playground/output", "/Users/davidtyrpak/Desktop/python_playground/output/nonbackground_output", "/Users/davidtyrpak/Desktop/python_playground/output/nonbackground_records_file.txt",
+".czi", "\n", false, 1)
 
 
 
