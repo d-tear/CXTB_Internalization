@@ -79,5 +79,5 @@ close();
 
 
 //Uncomment the below call to sum_projections and modify to your specific input directory, output directory, and extension type
-//sum_projections("path/to/input_directory", "path/to/output_directory", ".tif")
+sum_projections("/home/rcf-proj/drt1/tyrpak/Data/CXTB_Internalization/Master", "/home/rcf-proj/drt1/tyrpak/Data/CXTB_Internalization/Master/HPC_SumProjections", ".czi")
 
