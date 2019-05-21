@@ -112,16 +112,16 @@ def CTCF(background_directory, nonbackground_directory, CTCF_results_directory, 
     
     #find all csv files in background directory
     os.chdir(background_directory)
-    background_csv_files = [i for i in glob.glob('*{}'.format(extension))] ##find all the csv files in the background directory
+    background_csv_files = sorted([i for i in glob.glob('*{}'.format(extension))]) ##find all the csv files in the background directory and then sort/order the list
     background_csv_file_basenames = [basename(i) for i in background_csv_files] #the basename is the file name after "background"
-    
+    background_csv_file_basenames = sorted(background_csv_file_basenames) #sort/order the list
      
     
     #find all csv files in nonbackground directory
     os.chdir(nonbackground_directory)
-    nonbackground_csv_files = [i for i in glob.glob('*{}'.format(extension))]
+    nonbackground_csv_files = sorted([i for i in glob.glob('*{}'.format(extension))])
     nonbackground_csv_file_basenames = [basename(i) for i in nonbackground_csv_files] #the basename is the file name after "nonbackground"
-    
+    nonbackground_csv_file_basenames = sorted(nonbackground_csv_file_basenames) #sort/order the list
     
     ##background and nonbackground files should have exactly the same basenames. The only difference in their filesnames is the prefix "background" or "nonbackground"
     if nonbackground_csv_file_basenames != background_csv_file_basenames:
@@ -264,8 +264,8 @@ def UnrandomRename(Summary_CTCF_File, Key, output_directory):
     return    
         
     
-CTCF("/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/background_output", "/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/nonbackground_output", 
-     "/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/CTCF_results")
+CTCF("/Users/christina/Dropbox/lab/confocol Imaging/051719/randomized/background_output", "/Users/christina/Dropbox/lab/confocol Imaging/051719/randomized/nonbackground_output", 
+     "/Users/christina/Dropbox/lab/confocol Imaging/051719/randomized/CTCF_results")
 
-UnrandomRename("/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/CTCF_results/Summary_CTCF_results.csv",
-               "/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/Key.csv", "/Volumes/Untitled/CXTB_Internalization/Master/SumProjections/Randomized_Filenames/CTCF_results")    
+UnrandomRename("/Users/christina/Dropbox/lab/confocol Imaging/051719/randomized/CTCF_results/Summary_CTCF_results.csv",
+               "/Users/christina/Dropbox/lab/confocol Imaging/051719/randomized/Key.csv", "/Users/christina/Dropbox/lab/confocol Imaging/051719/randomized/CTCF_results" )    
