@@ -113,7 +113,7 @@ output:
 1)  This function saves a Master_CTCF.csv file in the specified output_directory. You can upload this csv file into your statistics software of choice and explore whether there are differences in ligand internalization for your different treatments. 
 -----------------------------------------------------------------------------------------------------------------------
 
-How CTCF ic calculated and why you need to average your final CTCF value for each image by the number of cells/nonbackground ROIs you collected for that image:
+How CTCF is calculated and why you need to average your final CTCF value for each image by the number of cells/nonbackground ROIs you collected for that image:
 
 For both nonbackground and background csv files, the final summary row contains the following values for each named column:
 IntDen column: The integrated density of all your individual ROIs treated as one ROI (Sum of individual ROI areas * The average of the mean gray values of your individual ROIs)
