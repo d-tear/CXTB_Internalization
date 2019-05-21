@@ -110,7 +110,7 @@ unrandomized file names, to be saved. There are no restrictions on output_direct
 
 output:
 
-1)  This function saves a Master_CTCF.csv file in the specified output_directory. You can upload this csv file into your statistics software of choice and explore whether there are differences in ligand internalization for your different treatments. **Be sure to average your CTCF results for each image by the number of cells/nonbackground ROIs you collected for that image:**
+1)  This function saves a Master_CTCF.csv file in the specified output_directory. You can upload this csv file into your statistics software of choice and explore whether there are differences in ligand internalization for your different treatments, but **be sure to average your CTCF results for each image by the number of cells/nonbackground ROIs you collected for that image!** . More details on why you need to average below.
 -----------------------------------------------------------------------------------------------------------------------
 
 **How CTCF is calculated and why you need to average your final CTCF value for each image by the number of cells/nonbackground ROIs you collected for that image:**
