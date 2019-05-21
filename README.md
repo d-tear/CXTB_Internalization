@@ -113,3 +113,29 @@ output:
 1)  This function saves a Master_CTCF.csv file in the specified output_directory. You can upload this csv file into your statistics software of choice and explore whether there are differences in ligand internalization for your different treatments. 
 
 
+How CTCF ic calculated and why you need to average your final CTCF value for each image by the number of cells/nonbackground ROIs you collected for that image:
+
+For both nonbackground and background csv files, the final summary row contains the following values for each named column:
+IntDen column: The integrated density of all your individual ROIs treated as one ROI (Sum of individual ROI areas * The average of the mean gray values of your individual ROIs)
+
+Area column: The sum of the individual areas from your ROIs
+Mean column: The average of the mean gray values for each ROI
+There are likely other columns in csv files as well, but the code ignores these columns as they are not used to calculate CTCF
+
+In your individual CTCF_results files (e.g. CTCF_results_994.csv) the CTCF for each individual nonbackground ROI is calculated as follows:
+CTCF = (Integrated Density of Nonbackground ROI) – (The average of the mean gray values of your Background ROIs) *( Area of Nonbackground ROI)
+The average of the mean gray values of your background ROIs is of course obtained from the final summary row of your background csv file, as mentioned above.
+The CTCF value in the final summary row of your individual CTCF_results files (e.g. CTCF_results_994.csv) is calculated as follows:
+CTCF in Final/Summary Row = (The integrated density of all your individual ROIs treated as one ROI) – (The Average of the Mean Gray Values of your Background ROIs) *( Sum of Areas of Nonbackground ROIs)
+For brevity, we will refer to CTCF in Final/Summary Row as CTCF_Final. 
+Note that The integrated density of all your individual ROIs treated as one ROI and Sum of Areas of Nonbackground ROIs are obtained from the final summary row of your nonbackground csv file, as mentioned above.
+
+Why you need to average your final CTCF value for each image by the number of cells/nonbackground ROIs you collected for that image:
+
+Each row in your Master_CTCF_results.csv and Summary_CTCF_results.csv file contains CTCF_Final for each image. Because CTCF_Final is obtained treating all your individual ROIs as one giant ROI, you will need to average each CTCF_Final value by the number of nonbackground ROIs you collected. For example, given two images with identical intensities, if in one image you analyzed ten cells (i.e. ten nonbackground ROIs) and in the second image you only analyzed five cells, the first image will have a higher CTCF_Final value simply because you summed up ten values instead of five values You analyzed a larger area!
+
+
+
+
+
+
