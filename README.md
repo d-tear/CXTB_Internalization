@@ -126,11 +126,14 @@ output:
 **How CTCF is calculated and why you need to average your final CTCF value for each image by the number of cells/nonbackground ROIs you collected for that image:**
 
 For both nonbackground and background csv files, the final summary row contains the following values for each named column:
-IntDen column: The integrated density of all your individual ROIs treated as one ROI (Sum of individual ROI areas * The average of the mean gray values of your individual ROIs)
 
-Area column: The sum of the individual areas from your ROIs
-Mean column: The average of the mean gray values for each ROI.
-There are likely other columns in csv files as well, but the code ignores these columns as they are not used to calculate CTCF
+1) IntDen column: The integrated density of all your individual ROIs treated as one ROI (Sum of individual ROI areas * The average of the mean gray values of your individual ROIs)
+
+2) Area column: The sum of the individual areas from your ROIs
+3) Mean column: The average of the mean gray values for each ROI.
+
+
+[There are likely other columns in the csv files as well, but the code ignores these columns as they are not used to calculate CTCF]
 
 In your individual CTCF_results files (e.g. CTCF_results_994.csv) the CTCF for each individual nonbackground ROI is calculated as follows:
 CTCF = (Integrated Density of Nonbackground ROI) – (The average of the mean gray values of your Background ROIs) *( Area of Nonbackground ROI)
