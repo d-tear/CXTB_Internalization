@@ -129,7 +129,7 @@ For both nonbackground and background csv files, the final summary row contains 
 IntDen column: The integrated density of all your individual ROIs treated as one ROI (Sum of individual ROI areas * The average of the mean gray values of your individual ROIs)
 
 Area column: The sum of the individual areas from your ROIs
-Mean column: The average of the mean gray values for each ROI
+Mean column: The average of the mean gray values for each ROI.
 There are likely other columns in csv files as well, but the code ignores these columns as they are not used to calculate CTCF
 
 In your individual CTCF_results files (e.g. CTCF_results_994.csv) the CTCF for each individual nonbackground ROI is calculated as follows:
