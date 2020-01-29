@@ -8,7 +8,7 @@ David R. Tyrpak, Yue Wang, Hugo Avila, Hao Guo, Runzhong Fu, Anh T. Truong, Minc
 ACS Biomaterials Science & Engineering 2020 6 (1), 198-204
 DOI: 10.1021/acsbiomaterials.9b01331
 
-2)Cathepsin S activation contributes to elevated CX3CL1 (fractalkine) levels in tears of a Sjögren’s syndrome murine model. Fu, R., Guo, H., Janga, S. et al.  Sci Rep 10, 1455 (2020). https://doi.org/10.1038/s41598-020-58337-4
+2) Cathepsin S activation contributes to elevated CX3CL1 (fractalkine) levels in tears of a Sjögren’s syndrome murine model. Fu, R., Guo, H., Janga, S. et al.  Sci Rep 10, 1455 (2020). https://doi.org/10.1038/s41598-020-58337-4
 
 
 Note that this pipeline is modular. Depending on your needs, you can pick and choose different parts of the pipeline to answer your research question. For example, Random_filename_generator.py could be used to blind yourself to images which are then scored (e.g. histology slides, or a cellular phenotype). In my workflow I first acquired super-resoultion confocal z-stacks of cells and then converted the z-stacks into sum projection images (i.e. STEP 1, sum_projections.ijm) before measuring CTCF. However, the CTCF method is typically used with fluorescent microscopy images acquired from a single focal plane. With images acquired from a single focal plane, simply skip step 1 and begin the pipeline with step 2.
