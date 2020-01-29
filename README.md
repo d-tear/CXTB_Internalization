@@ -1,6 +1,16 @@
 # Corrected-Total-Cell-Fluorescence [![DOI](https://zenodo.org/badge/140611525.svg)](https://zenodo.org/badge/latestdoi/140611525)
 Purpose: The pipeline implements an adaption and automation of a commonly used method called Corrected-Total-Cell-Fluorescence (CTCF), which determines the level of cellular fluorescence from fluorescence microscopy images. I created this pipeline to calculate fluorescent cholera toxin binding from super-resolution confocal z-stacks of individual cells. 
 However, this pipeline could be adapted to study fluorescent singal in a variety of contexts.  Simply put, CTCF normalizes the integrated density of your regions of interest (ROIs)  by subtracting the background fluorescence in your image. You can read more about CTCF here: https://celldivisionlab.com/2015/08/12/using-imagej-to-measure-cell-fluorescence/
+This pipeline has been used in two different publications to quantify fluorescent microscope images:
+
+1) Caveolin Elastin-Like Polypeptide Fusions Mediate Temperature-Dependent Assembly of Caveolar Microdomains
+David R. Tyrpak, Yue Wang, Hugo Avila, Hao Guo, Runzhong Fu, Anh T. Truong, Mincheol Park, Curtis T. Okamoto, Sarah F. Hamm-Alvarez, and J.A. MacKay
+ACS Biomaterials Science & Engineering 2020 6 (1), 198-204
+DOI: 10.1021/acsbiomaterials.9b01331
+
+2)Cathepsin S activation contributes to elevated CX3CL1 (fractalkine) levels in tears of a Sjögren’s syndrome murine model. Fu, R., Guo, H., Janga, S. et al.  Sci Rep 10, 1455 (2020). https://doi.org/10.1038/s41598-020-58337-4
+
+
 Note that this pipeline is modular. Depending on your needs, you can pick and choose different parts of the pipeline to answer your research question. For example, Random_filename_generator.py could be used to blind yourself to images which are then scored (e.g. histology slides, or a cellular phenotype). In my workflow I first acquired super-resoultion confocal z-stacks of cells and then converted the z-stacks into sum projection images (i.e. STEP 1, sum_projections.ijm) before measuring CTCF. However, the CTCF method is typically used with fluorescent microscopy images acquired from a single focal plane. With images acquired from a single focal plane, simply skip step 1 and begin the pipeline with step 2.
 ------------------------------------------------------------------------------------------------------------------------------
 STEP 1) sum_projections.ijm is used to convert each z-stack image into a sum projection. 
